@@ -16,33 +16,44 @@ from bottle_utils.i18n import lazy_gettext as _, i18n_url
 from ..dashboard import DashboardPlugin
 from ...utils.template import view
 
-import subprocess, os
+import os
 
 @view('ssid/changed_results', error=None, name=None)
 def exec_command():
     name = request.query.name
-    device = request.query.device
+    device = open('/etc/platform').read()
     reciever_name = "Outernet"
+    path = None
     number = 0
-    legacy_flag = 0
 
-    if 'orxpi' in device:
-        number = 81
-	legacy_flag = 1
-
-    elif 'l' in device:
-        number = 45
-	legacy_flag = 2
-
-    if name != '' and name != None and legacy_flag != 0 and number != 0:
+    if name != '':
         reciever_name += '-' + name
-        try:
-            subprocess.call(['/mnt/data/.ssid/ssid.sh %s /etc/init.d/S%dhostapd %d'%(reciever_name, number, legacy_flag)], shell=True)
-        except subprocess.CalledProcessError as err:
-            return dict(error=err.message)
-        return dict(name=reciever_name)
+
+        if 'ORxPi' in device:
+            number = 81
+            path = '/opt/orx'
+            try:
+                os.sys('sed -i \'3s/ssid=.*/ssid=%s/g\' %s/hostapd.conf'%(receiver_name, path))
+            except OSError as err:
+                eturn dict(error=err.message)
+
+        elif 'Lighthouse' in device:
+            number = 45
+            path = '/mnt/persist'
+
+        if path != None and number != 0:
+            try:
+                os.sys('echo %s > %s/.ssid'%(reciever_name, path))
+                os.sys('/etc/init.d/S%dhostapd restart', nubmer)
+            except OSError as err:
+                return dict(error=err.message)
+            return dict(name=reciever_name)
+
+        else:
+            return dict(error='Something went wrong. Please try again. If the problem persists, please check your device name or contact your distributor.')
+
     else:
-        return dict(error='Something went wrong. Please try again. If the problem persists, please check your device name or contact your distributor.')
+        return dict(error='You have not given a new name. Please try again!')
 
 def install(app, route):
     route(('changed', exec_command, 'GET', '', {}))
