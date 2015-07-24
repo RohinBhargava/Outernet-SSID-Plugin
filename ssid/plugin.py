@@ -35,7 +35,7 @@ def exec_command():
             try:
                 os.sys('sed -i \'3s/ssid=.*/ssid=%s/g\' %s/hostapd.conf'%(receiver_name, path))
             except OSError as err:
-                eturn dict(error=err.message)
+                return dict(error=err.message)
 
         elif 'Lighthouse' in device:
             number = 45
