@@ -1,11 +1,11 @@
 To install on lighthouse, scp and ssh into box and use command:
-  sudo ./install
+  sudo ./install.lighthouse.sh
+You will need to manually edit the librarian.ini file to include "ssid = yes" under the [plugins] section and "ssid" under the [dashboard] section.
 Wait for librarian to restart and the plugin should be ready for use.
 
 To install on pi, scp and ssh into the pi and use command:
-  sudo ./install.pi
+  sudo ./install.pi.sh
+You will need to manually edit the two librarian.ini files to include "ssid = yes" under the [plugins] section and "ssid" under the [dashboard] section.
 Wait for librarian to restart and the plugin should be ready for use.
-
-There is a weird bug that when the ssid is set to a new ssid, the current window redirects to a blank success page (intention of page) and a new browser is opened for librarian. Perhaps the behavior on startup could be altered with the addition of an "SSID changed" token, or something.
 
 Please note that you must connect to the new SSID when the connection has been lost.
