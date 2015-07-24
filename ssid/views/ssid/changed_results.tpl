@@ -12,7 +12,6 @@ ${_('Identifier reset')}
 
 % if name:
     <p>${_('The device name has successfully been changed to ')}<strong>${name}${_('!')}</strong></p>
-    <p>Please allow a few seconds for device reconfiguration.</p>
 % elif error:
     <p>${_('Changing the device name could not be completed. The following error occurred:')}</p>
     <p>${error}</p>
